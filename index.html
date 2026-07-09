@@ -5,41 +5,46 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Partners for Health — Combined Enrollment/Change Application</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
 <style>
   :root{
-    --navy:#1f3b57;
-    --navy-dark:#152838;
-    --accent:#3f7ab8;
-    --accent-text:#2c5c8f;
-    --field-bg:#eaf1f8;
-    --field-border:#5f8fc0;
-    --agency-bg:#eeece5;
+    --navy:#1b365d;
+    --navy-dark:#15294a;
+    --header-bg:#445c7c;
+    --accent:#3b6778;
+    --accent-text:#3b6778;
+    --field-bg:#ffffff;
+    --field-border:#7a8b95;
+    --agency-bg:#f4f2ec;
     --agency-border:#8f8873;
-    --hair:#7c8794;
-    --ink:#22282f;
-    --muted:#4b545e;
+    --hair:#8a95a0;
+    --ink:#2c2c2c;
+    --muted:#5c5c5c;
     --paper:#ffffff;
-    --danger:#a5271b;
-    --ok:#256b43;
+    --danger:#c0291f;
+    --ok:#1c8f5c;
   }
   *{box-sizing:border-box;}
   body{
-    font-family: "Segoe UI", Calibri, Arial, sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
     color:var(--ink);
-    background:#eef1f4;
+    background:#f9f9f9;
     margin:0;
     padding:0 0 60px 0;
-    line-height:1.45;
+    line-height:1.5;
+    letter-spacing:-0.01em;
   }
   .page-wrap{
-    max-width:900px;
+    max-width:1100px;
     margin:0 auto;
     background:var(--paper);
     padding:36px 48px 48px;
-    box-shadow:0 0 0 1px var(--hair);
+    border-radius:6px;
+    box-shadow:0 0 0 1px #edeff0;
   }
   .toolbar{
-    max-width:900px;
+    max-width:1100px;
     margin:0 auto;
     padding:14px 48px 0;
     display:flex;
@@ -51,21 +56,21 @@
   .toolbar .left{font-size:12px;color:var(--muted);}
   .toolbar .right{display:flex;gap:10px;}
   .toolbar button{
-    background:var(--navy);
+    background:var(--accent);
     color:#fff;
     border:none;
-    padding:9px 16px;
+    padding:12px 22px;
     font-size:13px;
-    border-radius:4px;
+    border-radius:3px;
     cursor:pointer;
-    font-weight:600;
+    font-weight:400;
   }
-  .toolbar button.secondary{background:#fff;color:var(--navy);border:1px solid var(--navy);}
-  .toolbar button:hover{opacity:.9;}
+  .toolbar button.secondary{background:#fff;color:var(--accent);border:1px solid var(--accent);}
+  .toolbar button:hover{opacity:.88;}
 
   #validation-banner{
     display:none;
-    max-width:900px;
+    max-width:1100px;
     margin:12px auto 0;
     padding:12px 16px;
     background:#fdecea;
@@ -79,15 +84,28 @@
     background:#eaf6ef;border-color:var(--ok);color:var(--ok);
   }
 
+  .tn-topbar{
+    background:var(--header-bg);color:#fff;padding:10px 0;text-align:center;
+    font-size:12.5px;letter-spacing:.02em;margin:-36px -48px 24px;
+  }
+  .tn-topbar a{color:#fff;text-decoration:underline;}
   header.doc-head{
     text-align:center;
-    border-bottom:2px solid var(--navy);
     padding-bottom:14px;
-    margin-bottom:18px;
+    margin-bottom:8px;
   }
-  header.doc-head h1{color:var(--navy);font-size:26px;margin:0 0 4px;letter-spacing:.2px;}
+  header.doc-head img.pfh-logo{max-width:170px;display:block;margin:0 auto 10px;}
+  header.doc-head h1{color:#414141;font-weight:400;font-size:29px;margin:0 0 4px;letter-spacing:0;}
   header.doc-head p.sub{margin:2px 0;font-weight:600;color:var(--ink);font-size:15px;}
   header.doc-head p.note{margin:8px 0 0;font-size:12px;color:var(--muted);font-style:italic;}
+
+  .intro-block{
+    font-size:13px;color:var(--ink);margin:10px auto 26px;max-width:780px;text-align:left;
+  }
+  .intro-block ul{margin:8px 0 12px 20px;padding:0;}
+  .intro-block li{margin-bottom:4px;font-weight:700;}
+  .intro-block a{color:#2969b0;}
+  .intro-block .contact{margin-top:10px;color:var(--ink);}
 
   .callout{
     background:#f4f8fb;border:1px solid var(--hair);border-left:4px solid var(--accent);
@@ -118,9 +136,10 @@
   .triage-reset{font-size:11.5px;color:var(--accent-text);cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;margin-top:4px;}
 
   h2.section-title{
-    color:#fff;background:var(--navy);padding:9px 14px;font-size:16px;margin:34px 0 14px;border-radius:3px;
+    color:#414141;background:#eef0f1;padding:20px 15px 15px;font-size:24px;font-weight:400;
+    margin:34px 0 14px;border-radius:4px;text-align:center;
   }
-  h2.section-title .tag{float:right;font-weight:400;font-size:11px;opacity:.85;}
+  h2.section-title .tag{display:block;font-weight:400;font-size:12px;opacity:.75;margin-top:4px;color:var(--muted);}
   h3.part-title{color:var(--navy);font-size:13.5px;border-bottom:1px solid var(--hair);padding-bottom:4px;margin:22px 0 10px;}
   h4.sub-title{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:16px 0 6px;}
   p.body-text{font-size:12.5px;margin:0 0 10px;}
@@ -138,15 +157,15 @@
   .cols-4{grid-template-columns:1fr 1fr 1fr 1fr;}
 
   .field label{
-    display:block;font-size:9.5px;font-weight:700;letter-spacing:.3px;color:var(--muted);
-    text-transform:uppercase;margin-bottom:3px;
+    display:block;font-size:13px;font-weight:400;letter-spacing:0;color:var(--ink);
+    text-transform:none;margin-bottom:5px;
   }
   .field label.req::after{content:" *";color:var(--danger);}
   .field input[type=text], .field input[type=date], .field input[type=email], .field input[type=tel]{
-    width:100%;padding:6px 8px;font-size:12.5px;background:var(--field-bg);
-    border:1px solid var(--field-border);border-radius:3px;font-family:inherit;color:var(--ink);
+    width:100%;padding:9px 10px;font-size:13px;background:var(--field-bg);
+    border:1px solid var(--field-border);border-radius:0px;font-family:inherit;color:var(--ink);
   }
-  .field input:focus{outline:2px solid var(--accent);}
+  .field input:focus{outline:2px solid #0197EC;outline-offset:1px;}
   .field input.field-missing{border-color:var(--danger);background:#fdecea;}
   .field input[readonly]{background:#f2f5f8;color:#333;font-weight:700;}
   .field.agency label{color:#4a4638;}
@@ -200,6 +219,14 @@
   .divider{border:none;border-top:1px solid var(--hair);margin:26px 0;}
   .contact-footer{font-size:11px;color:var(--muted);text-align:center;margin-top:8px;}
 
+  .tn-footer{
+    background:var(--navy);color:#fff;padding:18px 24px;margin:36px -48px -48px;
+    border-radius:0 0 6px 6px;font-size:12px;
+  }
+  .tn-footer a{color:#fff;}
+  .tn-footer .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+  .tn-footer .footer-meta{color:#c7d0dc;font-size:11px;}
+
   /* Tooltips for jargon */
   .term{border-bottom:1px dotted var(--accent);cursor:help;position:relative;font-weight:600;color:var(--navy-dark);}
   .term::after{
@@ -227,24 +254,28 @@
     .cols-2,.cols-3,.cols-4{grid-template-columns:1fr;}
     .sig-row{grid-template-columns:1fr;}
     header.doc-head h1{font-size:20px;}
-    h2.section-title{font-size:14px;}
+    h2.section-title{font-size:16px;padding:14px 10px 10px;}
     table.data-tbl{font-size:10.5px;}
+    .tn-topbar{margin:-20px -16px 20px;padding:8px 10px;font-size:11px;}
+    .tn-footer{margin:30px -16px -40px;padding:14px 16px;}
   }
 
   @media print{
     body{background:#fff;padding:0;}
     .toolbar,#validation-banner,.add-row-btn,.triage-reset{display:none;}
     .page-wrap{box-shadow:none;max-width:none;padding:0 20px;}
+    .tn-topbar{margin:0 -20px 16px;}
+    .tn-footer{margin:20px -20px 0;}
     h2.section-title{page-break-before:always;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     h2.section-title:first-of-type{page-break-before:auto;}
-    table.data-tbl th, h2.section-title, .cb input, .field input, .agency-block, .triage-box{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    table.data-tbl th, h2.section-title, .cb input, .field input, .agency-block, .triage-box, .tn-topbar, .tn-footer{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     .term::after{display:none !important;}
   }
 </style>
 </head>
 <body>
 <div class="toolbar">
-<div class="left">Fields marked <strong style="color:#c0392b;">*</strong> are required. Use "Check my form" before printing.</div>
+<div class="left">Fields marked <strong style="color:#c0291f;">*</strong> are required. Use "Check my form" before printing.</div>
 <div class="right">
 <button class="secondary" onclick="checkForm()">Check my form</button>
 <button onclick="window.print()">Print / Save as PDF</button>
@@ -252,11 +283,26 @@
 </div>
 <div id="validation-banner"></div>
 <div class="page-wrap">
+<div class="tn-topbar">State of Tennessee · Department of Finance and Administration · Benefits Administration</div>
 <header class="doc-head">
-<h1>Partners for Health</h1>
-<p class="sub">Combined Benefits Enrollment / Change Application</p>
+<img class="pfh-logo" src="https://s3.amazonaws.com/files.formstack.com/public/708447/image_pfhlogo.png" alt="Partners for Health logo">
+<h1>Enrollment Change Application</h1>
 <p class="note">Fillable and interactive — answer the questions below and the form will show only what applies to you. Shared information (name, address, dependents, beneficiaries) is entered once.</p>
 </header>
+<div class="intro-block">
+<p>This application combines the following forms:</p>
+<ul>
+<li>Enrollment and Special Qualifying Event Change Application</li>
+<li>Basic Term Life/AD&amp;D Insurance Enrollment Application</li>
+<li>Voluntary Accidental Death and Dismemberment Application</li>
+<li>Flexible Benefits Mid-Year Application</li>
+<li>Flexible Benefits Plan Enrollment for Annual Enrollment and Newly Eligible Employees</li>
+</ul>
+<p class="contact">State of Tennessee | Department of Finance and Administration | Benefits Administration<br>
+312 Rosa L. Parks Ave., 19th floor | Nashville, TN 37243 | 615.741.3590 or 800.253.9981<br>
+<a href="https://www.tn.gov/content/dam/tn/partnersforhealth/documents/FINAL_LA_TAGLINES.pdf" target="_blank" rel="noopener noreferrer">Language/Communication Assistance</a> is available.</p>
+<p>For additional information on special qualifying events, access the <a href="https://www.tn.gov/partnersforhealth/for-new-employees/help-for-qualifying-enrollment-events.html" target="_blank" rel="noopener noreferrer"><strong>Help for Qualifying Enrollment Events</strong></a> on the Partners for Health website. Please submit from the <a href="https://www.tn.gov/content/dam/tn/partnersforhealth/documents/deva_eligible_docs.pdf" target="_blank" rel="noopener noreferrer"><strong>list of acceptable documentation for eligible dependents</strong></a> along with your completed form. Redact/black out any Social Security numbers and any personal financial information on the copies of your documents. Premiums are not prorated. If approved, you must pay the required premium for the entire month in which the effective date occurs.</p>
+</div>
 <div class="callout">
 <strong>What's different in this version:</strong> employee-identification fields, the two beneficiary-designation sections, and the Flexible Benefits annual/mid-year authorization language have been merged so you fill each piece of information out once. Plan elections, legal authorizations, and signature lines specific to each application remain intact. This edition also hides sections you don't need, auto-calculates totals, and checks required fields for you.
   </div>
@@ -741,6 +787,13 @@
 </div><!-- /section-D -->
 <hr class="divider"/>
 <p class="contact-footer">Partners for Health — Combined Benefits Enrollment/Change Application, consolidated edition.</p>
+<div class="tn-footer">
+<div class="footer-row">
+<span><a href="https://tn.gov" target="_blank" rel="noopener noreferrer">TN.Gov</a></span>
+<span><a href="https://www.tn.gov/web-policies/accessibility.html" target="_blank" rel="noopener noreferrer">Accessibility Statement</a></span>
+</div>
+<div class="footer-meta">RDA 11367 · Last updated: 7/9/2026</div>
+</div>
 </div>
 <script>
 // ---------- Triage: show/hide sections B, C, D ----------
