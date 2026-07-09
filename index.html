@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Partners for Health — Combined Enrollment/Change Application</title>
 <style>
   :root{
@@ -10,10 +11,14 @@
     --accent:#3f7ab8;
     --field-bg:#eaf1f8;
     --field-border:#9cc3e5;
+    --agency-bg:#f0f0ee;
+    --agency-border:#c7c3b8;
     --hair:#d8dee5;
     --ink:#22282f;
     --muted:#5b6672;
     --paper:#ffffff;
+    --danger:#c0392b;
+    --ok:#2f7a4f;
   }
   *{box-sizing:border-box;}
   body{
@@ -36,9 +41,13 @@
     margin:0 auto;
     padding:14px 48px 0;
     display:flex;
-    justify-content:flex-end;
+    justify-content:space-between;
+    align-items:center;
     gap:10px;
+    flex-wrap:wrap;
   }
+  .toolbar .left{font-size:12px;color:var(--muted);}
+  .toolbar .right{display:flex;gap:10px;}
   .toolbar button{
     background:var(--navy);
     color:#fff;
@@ -49,228 +58,220 @@
     cursor:pointer;
     font-weight:600;
   }
-  .toolbar button:hover{background:var(--navy-dark);}
+  .toolbar button.secondary{background:#fff;color:var(--navy);border:1px solid var(--navy);}
+  .toolbar button:hover{opacity:.9;}
+
+  #validation-banner{
+    display:none;
+    max-width:900px;
+    margin:12px auto 0;
+    padding:12px 16px;
+    background:#fdecea;
+    border:1px solid var(--danger);
+    color:var(--danger);
+    border-radius:4px;
+    font-size:13px;
+    font-weight:600;
+  }
+  #validation-banner.ok{
+    background:#eaf6ef;border-color:var(--ok);color:var(--ok);
+  }
+
   header.doc-head{
     text-align:center;
     border-bottom:2px solid var(--navy);
     padding-bottom:14px;
     margin-bottom:18px;
   }
-  header.doc-head h1{
-    color:var(--navy);
-    font-size:26px;
-    margin:0 0 4px;
-    letter-spacing:.2px;
-  }
-  header.doc-head p.sub{
-    margin:2px 0;
-    font-weight:600;
-    color:var(--ink);
-    font-size:15px;
-  }
-  header.doc-head p.note{
-    margin:8px 0 0;
-    font-size:12px;
-    color:var(--muted);
-    font-style:italic;
-  }
+  header.doc-head h1{color:var(--navy);font-size:26px;margin:0 0 4px;letter-spacing:.2px;}
+  header.doc-head p.sub{margin:2px 0;font-weight:600;color:var(--ink);font-size:15px;}
+  header.doc-head p.note{margin:8px 0 0;font-size:12px;color:var(--muted);font-style:italic;}
+
   .callout{
-    background:#f4f8fb;
-    border:1px solid var(--hair);
-    border-left:4px solid var(--accent);
-    padding:12px 16px;
-    font-size:12.5px;
-    color:var(--ink);
-    margin:18px 0 26px;
-    border-radius:2px;
+    background:#f4f8fb;border:1px solid var(--hair);border-left:4px solid var(--accent);
+    padding:12px 16px;font-size:12.5px;color:var(--ink);margin:18px 0 26px;border-radius:2px;
   }
   .callout strong{color:var(--navy);}
 
+  /* ---- Triage box ---- */
+  .triage-box{
+    background:#fff;
+    border:2px solid var(--navy);
+    border-radius:6px;
+    padding:18px 20px;
+    margin:0 0 30px;
+  }
+  .triage-box h2{margin:0 0 4px;color:var(--navy);font-size:16px;}
+  .triage-box p{margin:0 0 12px;font-size:12.5px;color:var(--muted);}
+  .triage-opt{
+    display:flex;align-items:flex-start;gap:10px;
+    border:1px solid var(--hair);border-radius:5px;padding:10px 12px;margin-bottom:8px;
+    cursor:pointer;
+    transition:background .15s;
+  }
+  .triage-opt:hover{background:#f7fafc;}
+  .triage-opt input{width:16px;height:16px;margin-top:2px;flex:none;accent-color:var(--navy);}
+  .triage-opt .t-label{font-weight:700;font-size:13px;color:var(--ink);}
+  .triage-opt .t-desc{font-size:11.5px;color:var(--muted);}
+  .triage-reset{font-size:11.5px;color:var(--accent);cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;margin-top:4px;}
+
   h2.section-title{
-    color:#fff;
-    background:var(--navy);
-    padding:9px 14px;
-    font-size:16px;
-    margin:34px 0 14px;
-    border-radius:3px;
+    color:#fff;background:var(--navy);padding:9px 14px;font-size:16px;margin:34px 0 14px;border-radius:3px;
   }
-  h2.section-title .tag{
-    float:right;
-    font-weight:400;
-    font-size:11px;
-    opacity:.85;
-  }
-  h3.part-title{
-    color:var(--navy);
-    font-size:13.5px;
-    border-bottom:1px solid var(--hair);
-    padding-bottom:4px;
-    margin:22px 0 10px;
-  }
-  h4.sub-title{
-    font-size:11.5px;
-    text-transform:uppercase;
-    letter-spacing:.4px;
-    color:var(--muted);
-    margin:16px 0 6px;
-  }
-  p.body-text{
-    font-size:12.5px;
-    margin:0 0 10px;
-  }
-  p.legal{
-    font-size:11px;
-    color:#333;
-    margin:0 0 8px;
-  }
-  ul.bullets{
-    font-size:12px;
-    margin:6px 0 12px 18px;
-    padding:0;
-  }
+  h2.section-title .tag{float:right;font-weight:400;font-size:11px;opacity:.85;}
+  h3.part-title{color:var(--navy);font-size:13.5px;border-bottom:1px solid var(--hair);padding-bottom:4px;margin:22px 0 10px;}
+  h4.sub-title{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:16px 0 6px;}
+  p.body-text{font-size:12.5px;margin:0 0 10px;}
+  p.legal{font-size:11px;color:#333;margin:0 0 8px;}
+  ul.bullets{font-size:12px;margin:6px 0 12px 18px;padding:0;}
   ul.bullets li{margin-bottom:4px;}
 
-  .grid{
-    display:grid;
-    gap:12px 16px;
-    margin:10px 0 18px;
-  }
+  .toggle-section.hidden-section{display:none;}
+  .cond-block{display:none;}
+  .cond-block.visible{display:block;}
+
+  .grid{display:grid;gap:12px 16px;margin:10px 0 18px;}
   .cols-2{grid-template-columns:1fr 1fr;}
   .cols-3{grid-template-columns:1fr 1fr 1fr;}
   .cols-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+
   .field label{
-    display:block;
-    font-size:9.5px;
-    font-weight:700;
-    letter-spacing:.3px;
-    color:var(--muted);
-    text-transform:uppercase;
-    margin-bottom:3px;
+    display:block;font-size:9.5px;font-weight:700;letter-spacing:.3px;color:var(--muted);
+    text-transform:uppercase;margin-bottom:3px;
   }
-  .field input[type=text], .field input[type=date]{
-    width:100%;
-    padding:6px 8px;
-    font-size:12.5px;
-    background:var(--field-bg);
-    border:1px solid var(--field-border);
-    border-radius:3px;
-    font-family:inherit;
-    color:var(--ink);
+  .field label.req::after{content:" *";color:var(--danger);}
+  .field input[type=text], .field input[type=date], .field input[type=email], .field input[type=tel]{
+    width:100%;padding:6px 8px;font-size:12.5px;background:var(--field-bg);
+    border:1px solid var(--field-border);border-radius:3px;font-family:inherit;color:var(--ink);
   }
   .field input:focus{outline:2px solid var(--accent);}
+  .field input.field-missing{border-color:var(--danger);background:#fdecea;}
+  .field input[readonly]{background:#f2f5f8;color:#333;font-weight:700;}
+  .field.agency label{color:#7a7568;}
+  .field.agency input{background:var(--agency-bg);border-color:var(--agency-border);}
 
-  .check-grid{
-    display:grid;
-    gap:6px 18px;
-    margin:6px 0 14px;
+  .agency-block{
+    background:#fbfaf7;border:1px dashed var(--agency-border);border-radius:5px;padding:14px 16px;margin:14px 0;
   }
+  .agency-block .agency-flag{
+    display:inline-block;background:#7a7568;color:#fff;font-size:9.5px;font-weight:700;
+    letter-spacing:.4px;padding:2px 7px;border-radius:3px;margin-bottom:8px;text-transform:uppercase;
+  }
+
+  .pct-with-toggle{position:relative;}
+  .ssn-wrap{position:relative;display:flex;gap:6px;align-items:center;}
+  .ssn-wrap input{flex:1;}
+  .ssn-toggle{
+    background:#fff;border:1px solid var(--field-border);border-radius:3px;font-size:10px;
+    padding:6px 8px;cursor:pointer;color:var(--accent);font-weight:700;white-space:nowrap;
+  }
+
+  .check-grid{display:grid;gap:6px 18px;margin:6px 0 14px;}
   .check-grid.c1{grid-template-columns:1fr;}
   .check-grid.c2{grid-template-columns:1fr 1fr;}
   .check-grid.c3{grid-template-columns:1fr 1fr 1fr;}
   .check-grid.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
-  .cb{
-    display:flex;
-    align-items:flex-start;
-    gap:7px;
-    font-size:12.5px;
-  }
-  .cb input[type=checkbox]{
-    width:15px;height:15px;margin-top:2px;flex:none;accent-color:var(--navy);
-  }
-  .cb .inline-field{
-    display:inline-flex;
-    align-items:center;
-    gap:5px;
-  }
-  .cb .inline-field input[type=text]{
-    width:110px;
-    padding:3px 6px;
-    font-size:12px;
-    background:var(--field-bg);
-    border:1px solid var(--field-border);
-    border-radius:3px;
-  }
+  .cb{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;cursor:pointer;}
+  .cb input[type=checkbox], .cb input[type=radio]{width:15px;height:15px;margin-top:2px;flex:none;accent-color:var(--navy);}
+  .cb .inline-field{display:inline-flex;align-items:center;gap:5px;}
+  .cb .inline-field input[type=text]{width:110px;padding:3px 6px;font-size:12px;background:var(--field-bg);border:1px solid var(--field-border);border-radius:3px;}
 
-  table.data-tbl{
-    width:100%;
-    border-collapse:collapse;
-    margin:10px 0 16px;
-    font-size:11.5px;
-  }
-  table.data-tbl th{
-    background:var(--navy);
-    color:#fff;
-    text-align:left;
-    padding:6px 8px;
-    font-size:10.5px;
-  }
-  table.data-tbl td{
-    border:1px solid var(--hair);
-    padding:6px 8px;
-    vertical-align:top;
-  }
+  table.data-tbl{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:11.5px;}
+  table.data-tbl th{background:var(--navy);color:#fff;text-align:left;padding:6px 8px;font-size:10.5px;}
+  table.data-tbl td{border:1px solid var(--hair);padding:6px 8px;vertical-align:top;}
   table.data-tbl tr:nth-child(even) td{background:#f6f9fb;}
   table.entry-tbl td{padding:4px 5px;}
-  table.entry-tbl input[type=text]{
-    width:100%;
-    padding:4px 5px;
-    font-size:11px;
-    background:var(--field-bg);
-    border:1px solid var(--field-border);
-    border-radius:2px;
+  table.entry-tbl input[type=text],table.entry-tbl input[type=date]{
+    width:100%;padding:4px 5px;font-size:11px;background:var(--field-bg);border:1px solid var(--field-border);border-radius:2px;
   }
+  .table-scroll{overflow-x:auto;}
   .qe-event{font-weight:600;}
+  .add-row-btn{
+    background:#fff;border:1px solid var(--accent);color:var(--accent);font-size:11.5px;font-weight:700;
+    padding:6px 12px;border-radius:4px;cursor:pointer;margin:-8px 0 16px;
+  }
+  .add-row-btn:hover{background:var(--accent);color:#fff;}
 
-  .sig-row{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:16px;
-    margin:16px 0 8px;
-  }
-  .shared-ref{
-    font-size:11.5px;
-    background:#fbf6e9;
-    border:1px dashed #d9b65b;
-    padding:8px 12px;
-    border-radius:3px;
-    margin:8px 0 16px;
-    color:#5a4a1c;
-  }
+  .sig-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin:16px 0 8px;}
+  .shared-ref{font-size:11.5px;background:#fbf6e9;border:1px dashed #d9b65b;padding:8px 12px;border-radius:3px;margin:8px 0 16px;color:#5a4a1c;}
   .footnote{font-size:10.5px;color:var(--muted);font-style:italic;margin:4px 0;}
   .divider{border:none;border-top:1px solid var(--hair);margin:26px 0;}
-  .contact-footer{
-    font-size:11px;
-    color:var(--muted);
-    text-align:center;
-    margin-top:8px;
+  .contact-footer{font-size:11px;color:var(--muted);text-align:center;margin-top:8px;}
+
+  /* Tooltips for jargon */
+  .term{border-bottom:1px dotted var(--accent);cursor:help;position:relative;font-weight:600;color:var(--navy-dark);}
+  .term::after{
+    content:attr(data-tip);
+    position:absolute;left:0;bottom:125%;
+    width:240px;background:var(--navy-dark);color:#fff;font-size:11px;font-weight:400;
+    padding:8px 10px;border-radius:4px;line-height:1.4;
+    display:none;z-index:20;box-shadow:0 4px 10px rgba(0,0,0,.2);
+  }
+  .term:hover::after,.term:focus::after{display:block;}
+
+  @media (max-width:700px){
+    .page-wrap{padding:20px 16px 40px;}
+    .toolbar{padding:14px 16px 0;}
+    .cols-2,.cols-3,.cols-4{grid-template-columns:1fr;}
+    .sig-row{grid-template-columns:1fr;}
+    header.doc-head h1{font-size:20px;}
+    h2.section-title{font-size:14px;}
+    table.data-tbl{font-size:10.5px;}
   }
 
   @media print{
     body{background:#fff;padding:0;}
-    .toolbar{display:none;}
+    .toolbar,#validation-banner,.add-row-btn,.triage-reset{display:none;}
     .page-wrap{box-shadow:none;max-width:none;padding:0 20px;}
     h2.section-title{page-break-before:always;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     h2.section-title:first-of-type{page-break-before:auto;}
-    table.data-tbl th, h2.section-title, .cb input, .field input{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    table.data-tbl th, h2.section-title, .cb input, .field input, .agency-block, .triage-box{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .term::after{display:none !important;}
   }
 </style>
 </head>
 <body>
 
 <div class="toolbar">
-  <button onclick="window.print()">Print / Save as PDF</button>
+  <div class="left">Fields marked <strong style="color:#c0392b;">*</strong> are required. Use "Check my form" before printing.</div>
+  <div class="right">
+    <button class="secondary" onclick="checkForm()">Check my form</button>
+    <button onclick="window.print()">Print / Save as PDF</button>
+  </div>
 </div>
+<div id="validation-banner"></div>
 
 <div class="page-wrap">
 
   <header class="doc-head">
     <h1>Partners for Health</h1>
     <p class="sub">Combined Benefits Enrollment / Change Application</p>
-    <p class="note">Consolidated, fillable edition — click into any shaded box to type, and check boxes directly. Shared information (like your name and address) is entered once and applies to every section below.</p>
+    <p class="note">Fillable and interactive — answer the questions below and the form will show only what applies to you. Shared information (name, address, dependents, beneficiaries) is entered once.</p>
   </header>
 
   <div class="callout">
-    <strong>What's different in this version:</strong> the five original paper forms each repeated the same employee-identification fields, and two pairs of sections (the Basic Life/AD&D and Voluntary AD&D beneficiary designations; the Flexible Benefits annual and mid-year authorization language) were nearly word-for-word duplicates. Those have been merged into single shared sections, referenced from wherever they're needed, so you only fill each piece of information out once. All plan elections, legal authorizations, and signature lines specific to each application remain intact and unabridged.
+    <strong>What's different in this version:</strong> employee-identification fields, the two beneficiary-designation sections, and the Flexible Benefits annual/mid-year authorization language have been merged so you fill each piece of information out once. Plan elections, legal authorizations, and signature lines specific to each application remain intact. This edition also hides sections you don't need, auto-calculates totals, and checks required fields for you.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TRIAGE                                                        -->
+  <!-- ============================================================ -->
+  <div class="triage-box">
+    <h2>What do you need to do today?</h2>
+    <p>Check everything that applies — the form will show only the matching sections. Employee info, dependents, and beneficiaries (Section A) always apply.</p>
+    <label class="triage-opt">
+      <input type="checkbox" class="triage-check" data-target="section-B">
+      <span><span class="t-label">Enroll in or change Life / AD&D insurance</span><br><span class="t-desc">Basic Term Life/AD&D, Voluntary AD&D, or a beneficiary change</span></span>
+    </label>
+    <label class="triage-opt">
+      <input type="checkbox" class="triage-check" data-target="section-C">
+      <span><span class="t-label">Start, stop, or change a Flexible Spending Account</span><br><span class="t-desc">Medical, Limited Purpose, or Dependent Care FSA — annual election or mid-year change</span></span>
+    </label>
+    <label class="triage-opt">
+      <input type="checkbox" class="triage-check" data-target="section-D">
+      <span><span class="t-label">Enroll in or change Health, Dental, Vision, or Disability insurance</span><br><span class="t-desc">Including a Special Qualifying Event (marriage, birth, loss of other coverage, etc.)</span></span>
+    </label>
+    <button type="button" class="triage-reset" onclick="resetTriage()">Not sure — show me everything</button>
   </div>
 
   <!-- ============================================================ -->
@@ -279,159 +280,183 @@
   <h2 class="section-title">Section A — Employee Information <span class="tag">Applies to every application below</span></h2>
 
   <div class="grid cols-3">
-    <div class="field"><label>First Name</label><input type="text"></div>
+    <div class="field"><label class="req">First Name</label><input type="text" required></div>
     <div class="field"><label>MI</label><input type="text"></div>
-    <div class="field"><label>Last Name</label><input type="text"></div>
+    <div class="field"><label class="req">Last Name</label><input type="text" required></div>
   </div>
   <div class="grid cols-3">
-    <div class="field"><label>Date of Birth</label><input type="text" placeholder="MM/DD/YYYY"></div>
-    <div class="field"><label>Social Security Number</label><input type="text"></div>
-    <div class="field"><label>Edison ID</label><input type="text"></div>
+    <div class="field"><label class="req">Date of Birth</label><input type="date" required></div>
+    <div class="field"><label class="req">Social Security Number</label>
+      <div class="ssn-wrap">
+        <input type="text" inputmode="numeric" maxlength="11" placeholder="XXX-XX-XXXX" class="ssn-input" required>
+        <button type="button" class="ssn-toggle" onclick="toggleSSN(this)">HIDE</button>
+      </div>
+    </div>
+    <div class="field"><label><span class="term" tabindex="0" data-tip="Your unique employee ID number in Edison, the State of Tennessee's HR/payroll system.">Edison ID</span></label><input type="text"></div>
   </div>
 
   <h4 class="sub-title">Gender</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Male</label>
-    <label class="cb"><input type="checkbox"> Female</label>
+    <label class="cb"><input type="radio" name="gender"> Male</label>
+    <label class="cb"><input type="radio" name="gender"> Female</label>
   </div>
 
   <h4 class="sub-title">Marital Status</h4>
   <div class="check-grid c4">
-    <label class="cb"><input type="checkbox"> Single</label>
-    <label class="cb"><input type="checkbox"> Married</label>
-    <label class="cb"><input type="checkbox"> Divorced</label>
-    <label class="cb"><input type="checkbox"> Widowed</label>
+    <label class="cb"><input type="radio" name="marital"> Single</label>
+    <label class="cb"><input type="radio" name="marital"> Married</label>
+    <label class="cb"><input type="radio" name="marital"> Divorced</label>
+    <label class="cb"><input type="radio" name="marital"> Widowed</label>
   </div>
 
   <div class="grid cols-2">
-    <div class="field"><label>Employing Agency</label><input type="text"></div>
-    <div class="field"><label>Daytime / Work Phone</label><input type="text"></div>
+    <div class="field"><label class="req">Employing Agency</label><input type="text" required></div>
+    <div class="field"><label>Daytime / Work Phone</label><input type="tel" class="phone-input" placeholder="(XXX) XXX-XXXX" maxlength="14"></div>
   </div>
 
   <h4 class="sub-title">Employer Group</h4>
   <div class="check-grid c4">
-    <label class="cb"><input type="checkbox"> HED</label>
-    <label class="cb"><input type="checkbox"> State</label>
-    <label class="cb"><input type="checkbox"> Local Ed</label>
-    <label class="cb"><input type="checkbox"> Local Gov</label>
+    <label class="cb"><input type="radio" name="empgroup"> HED</label>
+    <label class="cb"><input type="radio" name="empgroup"> State</label>
+    <label class="cb"><input type="radio" name="empgroup"> Local Ed</label>
+    <label class="cb"><input type="radio" name="empgroup"> Local Gov</label>
   </div>
 
-  <div class="field"><label>Home Address</label><input type="text"></div>
+  <div class="field"><label class="req">Home Address</label><input type="text" required></div>
   <div class="grid cols-4" style="margin-top:10px;">
-    <div class="field"><label>City</label><input type="text"></div>
-    <div class="field"><label>State</label><input type="text"></div>
-    <div class="field"><label>Zip Code</label><input type="text"></div>
+    <div class="field"><label class="req">City</label><input type="text" required></div>
+    <div class="field"><label class="req">State</label><input type="text" required></div>
+    <div class="field"><label class="req">Zip Code</label><input type="text" required></div>
     <div class="field"><label>County</label><input type="text"></div>
   </div>
-  <label class="cb"><input type="checkbox"> Update my address on file</label>
+  <label class="cb" style="margin-top:8px;"><input type="checkbox"> Update my address on file</label>
 
   <h3 class="part-title">Dependent Information</h3>
   <p class="body-text">Complete this table for any dependent(s) being added, changed, or covered under Section B (Voluntary AD&D) and/or Section D (Enrollment &amp; SQE Change Application). Check Health / Dental / Vision / AD&D as applicable for each dependent.</p>
-  <table class="data-tbl entry-tbl">
+  <div class="table-scroll">
+  <table class="data-tbl entry-tbl" id="dependent-table">
     <tr>
       <th>Name (First, MI, Last)</th><th>Date of Birth</th><th>Relationship</th><th>Gender</th>
-      <th>Acquire Date*</th><th>SSN</th><th>H</th><th>D</th><th>V</th><th>AD&amp;D</th>
+      <th><span class="term" tabindex="0" data-tip="The date of marriage, birth, adoption, placement for adoption, or guardianship.">Acquire Date*</span></th><th>SSN</th><th>H</th><th>D</th><th>V</th><th>AD&amp;D</th>
     </tr>
-    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td></tr>
-    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td></tr>
-    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td></tr>
-    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td></tr>
+    <tbody id="dependent-rows">
+    <tr><td><input type="text"></td><td><input type="date"></td><td><input type="text"></td><td><input type="text"></td><td><input type="date"></td><td><input type="text"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td></tr>
+    <tr><td><input type="text"></td><td><input type="date"></td><td><input type="text"></td><td><input type="text"></td><td><input type="date"></td><td><input type="text"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td><td style="text-align:center"><input type="checkbox"></td></tr>
+    </tbody>
   </table>
+  </div>
+  <button type="button" class="add-row-btn" onclick="addRow('dependent-rows',10)">+ Add another dependent</button>
   <label class="cb"><input type="checkbox"> A separate sheet with more dependents is attached</label>
-  <p class="footnote">*Acquire date is the date of marriage, birth, adoption, placement for adoption, or guardianship. Proof of eligibility is required for all new dependents and must be submitted with your application — see www.tn.gov/content/dam/tn/finance/fa-benefits/documents/deva_eligible_docs.pdf.</p>
+  <p class="footnote">*Proof of eligibility is required for all new dependents and must be submitted with your application — see www.tn.gov/content/dam/tn/finance/fa-benefits/documents/deva_eligible_docs.pdf.</p>
 
   <h3 class="part-title">Shared Beneficiary Designation <span style="font-weight:400;color:var(--muted);font-size:11px;">(used for Basic Term Life/AD&D and Voluntary AD&D — Section B)</span></h3>
   <p class="body-text">This single designation applies to both your Basic Term Life/AD&D and Voluntary AD&D coverage. If you want <em>different</em> beneficiaries for each, check the box below and attach a separate designation for the one that differs.</p>
   <label class="cb"><input type="checkbox"> My Voluntary AD&D beneficiary designation is different from Basic Life/AD&D (separate form attached)</label>
 
   <h4 class="sub-title">Primary Beneficiary Designation (up to 5) — total must equal 100%</h4>
+  <div class="table-scroll">
   <table class="data-tbl entry-tbl">
     <tr><th>Name</th><th>Phone</th><th>SSN</th><th>Relationship</th><th>Benefit %</th><th>Home Address / City / State / ZIP</th></tr>
-    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+    <tbody id="primary-ben-rows">
+    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text" class="primary-pct" oninput="sumPct('primary-ben-rows','primary-pct','primary-total')"></td><td><input type="text"></td></tr>
+    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text" class="primary-pct" oninput="sumPct('primary-ben-rows','primary-pct','primary-total')"></td><td><input type="text"></td></tr>
+    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text" class="primary-pct" oninput="sumPct('primary-ben-rows','primary-pct','primary-total')"></td><td><input type="text"></td></tr>
+    </tbody>
   </table>
-  <div class="field" style="max-width:160px;"><label>Total Benefit %</label><input type="text"></div>
+  </div>
+  <button type="button" class="add-row-btn" onclick="addRow('primary-ben-rows',5,'primary-pct','primary-total')">+ Add another primary beneficiary</button>
+  <div class="field" style="max-width:160px;"><label>Total Benefit % <span id="primary-total-label" style="text-transform:none;font-weight:400;"></span></label><input type="text" id="primary-total" readonly value="0"></div>
 
   <h4 class="sub-title">Contingent Beneficiary Designation <span style="text-transform:none;font-weight:400;">(receives benefits only if no primary beneficiary is living)</span></h4>
+  <div class="table-scroll">
   <table class="data-tbl entry-tbl">
     <tr><th>Name</th><th>Phone</th><th>SSN</th><th>Relationship</th><th>Benefit %</th><th>Home Address / City / State / ZIP</th></tr>
-    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
-    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+    <tbody id="contingent-ben-rows">
+    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text" class="contingent-pct" oninput="sumPct('contingent-ben-rows','contingent-pct','contingent-total')"></td><td><input type="text"></td></tr>
+    <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text" class="contingent-pct" oninput="sumPct('contingent-ben-rows','contingent-pct','contingent-total')"></td><td><input type="text"></td></tr>
+    </tbody>
   </table>
-  <div class="field" style="max-width:160px;"><label>Total Benefit %</label><input type="text"></div>
+  </div>
+  <button type="button" class="add-row-btn" onclick="addRow('contingent-ben-rows',5,'contingent-pct','contingent-total')">+ Add another contingent beneficiary</button>
+  <div class="field" style="max-width:160px;"><label>Total Benefit % <span id="contingent-total-label" style="text-transform:none;font-weight:400;"></span></label><input type="text" id="contingent-total" readonly value="0"></div>
 
   <hr class="divider">
 
   <!-- ============================================================ -->
   <!-- SECTION B: LIFE & AD&D COVERAGE                                -->
   <!-- ============================================================ -->
+  <div class="toggle-section" id="section-B">
   <h2 class="section-title">Section B — Basic Term Life/AD&D and Voluntary AD&D Coverage</h2>
 
   <h3 class="part-title">B1. Basic Term Life/AD&D — Type of Request</h3>
   <h4 class="sub-title">Enrollment</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Add Coverage</label>
-    <label class="cb"><input type="checkbox"> Change Coverage</label>
-    <label class="cb"><input type="checkbox"> New Hire</label>
-    <label class="cb"><input type="checkbox"> Newly Eligible</label>
-    <label class="cb"><input type="checkbox"> Qualifying Event Change Request</label>
+    <label class="cb"><input type="radio" name="b1type" class="b3-trigger" data-show="b-qualifying-block" value="add"> Add Coverage</label>
+    <label class="cb"><input type="radio" name="b1type" class="b3-trigger" data-show="b-qualifying-block" value="change"> Change Coverage</label>
+    <label class="cb"><input type="radio" name="b1type" class="b3-trigger" data-show="b-qualifying-block" value="new"> New Hire</label>
+    <label class="cb"><input type="radio" name="b1type" class="b3-trigger" data-show="b-qualifying-block" value="eligible"> Newly Eligible</label>
+    <label class="cb"><input type="radio" name="b1type" class="b3-trigger" data-show="b-qualifying-block" value="qualify"> Qualifying Event Change Request</label>
   </div>
   <h4 class="sub-title">Beneficiary Designation</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Add</label>
-    <label class="cb"><input type="checkbox"> Change</label>
+    <label class="cb"><input type="radio" name="b1ben"> Add</label>
+    <label class="cb"><input type="radio" name="b1ben"> Change</label>
   </div>
-  <div class="field" style="max-width:220px;"><label>Beneficiary Designation Effective Date</label><input type="text"></div>
+  <div class="field" style="max-width:220px;"><label>Beneficiary Designation Effective Date</label><input type="date"></div>
 
   <h4 class="sub-title">Elect Coverage — Central State Government &amp; State Higher Education Employee Only</h4>
-  <label class="cb"><input type="checkbox"> I want full employee coverage paid by the state. (One times my base annual salary as of hire or Sept. 1 each year, effective Jan. 1, with a minimum of $50,000 and maximum of $250,000; reduced at ages 65, 70, and 75. Basic AD&D is one times basic term life. Imputed income for coverage above $50,000 is reported per IRS Publication 15 on my W-2.)</label>
-  <label class="cb"><input type="checkbox"> I want only $50,000 of employee coverage paid by the state even though I qualify for more. (Coverage may be less than $50,000 if calculated coverage due to age is less than $50,000.)</label>
+  <label class="cb"><input type="radio" name="b1elect_cs"> I want full employee coverage paid by the state. (One times my base annual salary as of hire or Sept. 1 each year, effective Jan. 1, with a minimum of $50,000 and maximum of $250,000; reduced at ages 65, 70, and 75. Basic AD&D is one times basic term life. <span class="term" tabindex="0" data-tip="The value of employer-paid life insurance coverage above $50,000, which the IRS treats as taxable income to you.">Imputed income</span> for coverage above $50,000 is reported per IRS Publication 15 on my W-2.)</label>
+  <label class="cb"><input type="radio" name="b1elect_cs"> I want only $50,000 of employee coverage paid by the state even though I qualify for more. (Coverage may be less than $50,000 if calculated coverage due to age is less than $50,000.)</label>
 
   <h4 class="sub-title">Elect Coverage — State Offline Agency Employee Only</h4>
-  <label class="cb"><input type="checkbox"> I want full employee coverage; I will pay all premiums. (Same salary-based formula and limits as above.)</label>
-  <label class="cb"><input type="checkbox"> I want only $50,000 of employee coverage, premiums paid by me, even though I qualify for more.</label>
-  <label class="cb"><input type="checkbox"> I decline to enroll in Basic Term Life/Basic AD&D coverage.</label>
+  <label class="cb"><input type="radio" name="b1elect_off"> I want full employee coverage; I will pay all premiums. (Same salary-based formula and limits as above.)</label>
+  <label class="cb"><input type="radio" name="b1elect_off"> I want only $50,000 of employee coverage, premiums paid by me, even though I qualify for more.</label>
+  <label class="cb"><input type="radio" name="b1elect_off"> I decline to enroll in Basic Term Life/Basic AD&D coverage.</label>
 
-  <p class="legal">I understand this enrollment is only for basic term life/basic AD&D coverage and that it is up to me to designate a beneficiary (see Section A). I authorize the State Group Insurance Program (SGIP) to release information to its life insurance contractor to establish eligibility and coverage levels. I confirm all information provided is accurate and understand I may be subject to disciplinary and/or legal action for false or misleading information. I authorize my employer to deduct the required premium from my salary/wages.</p>
+  <p class="legal">I understand this enrollment is only for basic term life/basic AD&D coverage and that it is up to me to designate a beneficiary (see Section A). I authorize the <span class="term" tabindex="0" data-tip="The State Group Insurance Program — Tennessee's health and life insurance program for public employees.">SGIP</span> to release information to its life insurance contractor to establish eligibility and coverage levels. I confirm all information provided is accurate and understand I may be subject to disciplinary and/or legal action for false or misleading information. I authorize my employer to deduct the required premium from my salary/wages.</p>
   <div class="sig-row">
     <div class="field"><label>Employee Signature</label><input type="text"></div>
-    <div class="field"><label>Date</label><input type="text"></div>
+    <div class="field"><label>Date</label><input type="date"></div>
   </div>
 
-  <h4 class="sub-title">Agency Section — Completed by Agency Benefits Coordinator</h4>
-  <div class="grid cols-2"><div class="field"><label>Name</label><input type="text"></div><div class="field"><label>Edison ID or SSN</label><input type="text"></div></div>
+  <div class="agency-block">
+    <span class="agency-flag">Agency use only</span>
+    <div class="grid cols-2">
+      <div class="field agency"><label>Name</label><input type="text"></div>
+      <div class="field agency"><label>Edison ID or SSN</label><input type="text"></div>
+    </div>
+  </div>
 
   <hr class="divider">
 
   <h3 class="part-title">B2. Voluntary AD&D — Type of Request</h3>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> New Enrollment/Change</label>
-    <label class="cb"><input type="checkbox"> Other Enrollment*</label>
+    <label class="cb"><input type="radio" name="b2type" class="b3-trigger" data-show="b-qualifying-block" value="new"> New Enrollment/Change</label>
+    <label class="cb"><input type="radio" name="b2type" class="b3-trigger" data-show="b-qualifying-block" value="other"> Other Enrollment*</label>
   </div>
   <h4 class="sub-title">Enrollment Option</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Employee only</label>
-    <label class="cb"><input type="checkbox"> Employee + spouse</label>
-    <label class="cb"><input type="checkbox"> Employee + spouse + child(ren)</label>
-    <label class="cb"><input type="checkbox"> Employee + child(ren)</label>
+    <label class="cb"><input type="radio" name="b2tier"> Employee only</label>
+    <label class="cb"><input type="radio" name="b2tier"> Employee + spouse</label>
+    <label class="cb"><input type="radio" name="b2tier"> Employee + spouse + child(ren)</label>
+    <label class="cb"><input type="radio" name="b2tier"> Employee + child(ren)</label>
   </div>
   <h4 class="sub-title">Action for Enrollment Change</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Add Dependent</label>
-    <label class="cb"><input type="checkbox"> Terminate Dependent</label>
-    <label class="cb"><input type="checkbox"> Terminate Coverage</label>
-    <label class="cb"><input type="checkbox"> Add/Change Beneficiary</label>
+    <label class="cb"><input type="radio" name="b2action"> Add Dependent</label>
+    <label class="cb"><input type="radio" name="b2action"> Terminate Dependent</label>
+    <label class="cb"><input type="radio" name="b2action"> Terminate Coverage</label>
+    <label class="cb"><input type="radio" name="b2action"> Add/Change Beneficiary</label>
   </div>
-  <div class="field" style="max-width:220px;"><label>Effective Date of Change</label><input type="text"></div>
+  <div class="field" style="max-width:220px;"><label>Effective Date of Change</label><input type="date"></div>
 
   <h4 class="sub-title">Employee Volume of Coverage <span style="text-transform:none;font-weight:400;">(dependent coverage is a percentage of this value)</span></h4>
   <div class="check-grid c3">
-    <label class="cb"><input type="checkbox"> $50,000</label>
-    <label class="cb"><input type="checkbox"> $60,000</label>
-    <label class="cb"><input type="checkbox"> $100,000</label>
-    <label class="cb"><input type="checkbox"> $250,000</label>
-    <label class="cb"><input type="checkbox"> $500,000</label>
+    <label class="cb"><input type="radio" name="b2volume"> $50,000</label>
+    <label class="cb"><input type="radio" name="b2volume"> $60,000</label>
+    <label class="cb"><input type="radio" name="b2volume"> $100,000</label>
+    <label class="cb"><input type="radio" name="b2volume"> $250,000</label>
+    <label class="cb"><input type="radio" name="b2volume"> $500,000</label>
   </div>
 
   <div class="shared-ref">Dependent details for this coverage are captured once in the shared <strong>Dependent Information</strong> table in Section A above — no need to re-enter them here.</div>
@@ -439,74 +464,94 @@
   <p class="legal">I understand this enrollment is only for voluntary AD&D coverage and that it is up to me to designate a beneficiary (see Section A). I authorize the SGIP to release information to its life insurance contractor on behalf of myself and all family members required to establish eligibility and coverage levels. I confirm all information provided is accurate and understand I may be subject to disciplinary and/or legal action for false or misleading information. I authorize my employer to deduct the required premium from my salary/wages.</p>
   <div class="sig-row">
     <div class="field"><label>Employee Signature</label><input type="text"></div>
-    <div class="field"><label>Date</label><input type="text"></div>
+    <div class="field"><label>Date</label><input type="date"></div>
   </div>
 
-  <h4 class="sub-title">Agency Section — Completed by Agency Benefits Coordinator</h4>
-  <div class="grid cols-2"><div class="field"><label>Hire Date</label><input type="text"></div><div class="field"><label>ABC Signature/Date</label><input type="text"></div></div>
+  <div class="agency-block">
+    <span class="agency-flag">Agency use only</span>
+    <div class="grid cols-2">
+      <div class="field agency"><label>Hire Date</label><input type="date"></div>
+      <div class="field agency"><label>ABC Signature/Date</label><input type="text"></div>
+    </div>
+  </div>
 
-  <h4 class="sub-title">B3. Qualifying Events for a Life/AD&D Coverage Change</h4>
-  <p class="body-text">Check the box for the event that applies. Submit this page with the required documentation and your completed application. A change request must be received within 60 days of the loss of eligibility or the dependent's acquisition date (30 days for AD&D birth/adoption retroactive coverage). Voluntary cancellations are <strong>not</strong> qualifying events.</p>
-  <table class="data-tbl">
-    <tr><th>Qualifying Event</th><th>Effective Date</th><th>Documentation Required</th></tr>
-    <tr>
-      <td><label class="cb"><input type="checkbox"><span class="qe-event">Loss of eligibility for coverage under another group life/AD&D plan</span></label></td>
-      <td>First of the month after BA receives the request.</td>
-      <td>Employer/insurer letterhead documentation listing covered participants, coverage dates/types, who lost eligibility, the date, and the reason.</td>
-    </tr>
-    <tr>
-      <td><label class="cb"><input type="checkbox"><span class="qe-event">New dependent spouse/stepchild by marriage, or child by guardianship order</span></label></td>
-      <td>First of the month after BA receives the request.</td>
-      <td>Marriage certificate, or Order of Guardianship (with support/insurance terms and period).</td>
-    </tr>
-    <tr>
-      <td><label class="cb"><input type="checkbox"><span class="qe-event">New dependent by birth, adoption, or placement for adoption</span></label></td>
-      <td>Life: first of the month after BA receives the request. AD&D: date of birth/adoption/placement.</td>
-      <td>Birth certificate (mother's copy accepted for newborn), or Final Order of Adoption/Custody.</td>
-    </tr>
-  </table>
-  <p class="footnote">When eligibility under other insurance is lost, only the employee (Life) or employee and affected dependents (AD&D) who lost coverage may enroll, and only in the type(s) of coverage lost. For an acquire event, Life allows a coverage-type change only (no adding dependents); AD&D allows enrolling the new dependent plus any other previously eligible, still-eligible dependents.</p>
+  <div id="b-qualifying-block" class="cond-block">
+    <h4 class="sub-title">B3. Qualifying Events for a Life/AD&D Coverage Change</h4>
+    <p class="body-text">Check the box for the event that applies. Submit this page with the required documentation and your completed application. A change request must be received within 60 days of the loss of eligibility or the dependent's acquisition date (30 days for AD&D birth/adoption retroactive coverage). Voluntary cancellations are <strong>not</strong> qualifying events.</p>
+    <div class="table-scroll">
+    <table class="data-tbl">
+      <tr><th>Qualifying Event</th><th>Effective Date</th><th>Documentation Required</th></tr>
+      <tr>
+        <td><label class="cb"><input type="radio" name="b3event"><span class="qe-event">Loss of eligibility for coverage under another group life/AD&D plan</span></label></td>
+        <td>First of the month after BA receives the request.</td>
+        <td>Employer/insurer letterhead documentation listing covered participants, coverage dates/types, who lost eligibility, the date, and the reason.</td>
+      </tr>
+      <tr>
+        <td><label class="cb"><input type="radio" name="b3event"><span class="qe-event">New dependent spouse/stepchild by marriage, or child by guardianship order</span></label></td>
+        <td>First of the month after BA receives the request.</td>
+        <td>Marriage certificate, or Order of Guardianship (with support/insurance terms and period).</td>
+      </tr>
+      <tr>
+        <td><label class="cb"><input type="radio" name="b3event"><span class="qe-event">New dependent by birth, adoption, or placement for adoption</span></label></td>
+        <td>Life: first of the month after BA receives the request. AD&D: date of birth/adoption/placement.</td>
+        <td>Birth certificate (mother's copy accepted for newborn), or Final Order of Adoption/Custody.</td>
+      </tr>
+    </table>
+    </div>
+    <p class="footnote">When eligibility under other insurance is lost, only the employee (Life) or employee and affected dependents (AD&D) who lost coverage may enroll, and only in the type(s) of coverage lost. For an acquire event, Life allows a coverage-type change only (no adding dependents); AD&D allows enrolling the new dependent plus any other previously eligible, still-eligible dependents.</p>
+  </div>
+  </div><!-- /section-B -->
 
   <hr class="divider">
 
   <!-- ============================================================ -->
   <!-- SECTION C: FLEXIBLE BENEFITS                                  -->
   <!-- ============================================================ -->
+  <div class="toggle-section" id="section-C">
   <h2 class="section-title">Section C — Flexible Benefits Plan (Plan Year 2025)</h2>
   <p class="body-text"><strong>This is NOT an application for insurance.</strong> To enroll in or change medical, dental, or vision insurance, use Section D. Complete this section only to participate in the Medical, Limited Purpose, or Dependent Care Reimbursement Account.</p>
 
   <h4 class="sub-title">Type of Request</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Annual Enrollment / Newly Eligible <span style="color:var(--muted);font-weight:400;">(new elections must be filed each year)</span></label>
-    <label class="cb"><input type="checkbox"> Mid-Year Change <span style="color:var(--muted);font-weight:400;">(must be within 60 days of a status change event — see table below)</span></label>
+    <label class="cb"><input type="radio" name="ctype" class="c-trigger" data-show="c-annual-block" data-hide="c-midyear-block" value="annual"> Annual Enrollment / Newly Eligible <span style="color:var(--muted);font-weight:400;">(new elections must be filed each year)</span></label>
+    <label class="cb"><input type="radio" name="ctype" class="c-trigger" data-show="c-midyear-block" data-hide="c-annual-block" value="midyear"> Mid-Year Change <span style="color:var(--muted);font-weight:400;">(must be within 60 days of a status change event)</span></label>
   </div>
-  <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> New Hire</label>
-    <label class="cb"><input type="checkbox"> Revision</label>
-  </div>
-  <div class="grid cols-3">
-    <div class="field"><label>Department Name</label><input type="text"></div>
-    <div class="field"><label>Dept ID / Budget Code</label><input type="text"></div>
-    <div class="field"><label>Employee ID</label><input type="text"></div>
-  </div>
-  <h4 class="sub-title">Payroll Frequency (paychecks per year) — annual enrollment only</h4>
-  <div class="check-grid c3">
-    <label class="cb"><input type="checkbox"> 12</label>
-    <label class="cb"><input type="checkbox"> 24</label>
-    <label class="cb"><input type="checkbox"> Other</label>
+
+  <div id="c-annual-block" class="cond-block">
+    <div class="check-grid c2">
+      <label class="cb"><input type="radio" name="cenrollstatus"> New Hire</label>
+      <label class="cb"><input type="radio" name="cenrollstatus"> Revision</label>
+    </div>
+    <div class="grid cols-3">
+      <div class="field"><label>Department Name</label><input type="text"></div>
+      <div class="field"><label>Dept ID / Budget Code</label><input type="text"></div>
+      <div class="field"><label>Employee ID</label><input type="text"></div>
+    </div>
+    <h4 class="sub-title">Payroll Frequency (paychecks per year)</h4>
+    <div class="check-grid c3">
+      <label class="cb"><input type="radio" name="cpayfreq"> 12</label>
+      <label class="cb"><input type="radio" name="cpayfreq"> 24</label>
+      <label class="cb"><input type="radio" name="cpayfreq"> Other</label>
+    </div>
+    <h4 class="sub-title">Tax Filing Status <span style="font-weight:400;text-transform:none;">— Dependent Care FSA only</span></h4>
+    <div class="check-grid c1">
+      <label class="cb"><input type="radio" name="ctax"> Married, filing separately (max $3,750)</label>
+      <label class="cb"><input type="radio" name="ctax"> Married, filing jointly (max $7,500)</label>
+      <label class="cb"><input type="radio" name="ctax"> Head of household (max $7,500)</label>
+    </div>
   </div>
 
   <h3 class="part-title">Reimbursement Account Elections</h3>
-  <p class="body-text">If enrolled in the CDHP/HSA, you are not eligible for the Medical Expense/General Medical FSA, but may contribute to the Limited Purpose FSA (vision and/or dental expenses only). Questions: Benefits Administration, 615.741.3590 or 800.253.9981.</p>
+  <p class="body-text">If enrolled in the <span class="term" tabindex="0" data-tip="Consumer-Directed Health Plan paired with a Health Savings Account — a lower-premium health plan combined with a tax-advantaged savings account.">CDHP/HSA</span>, you are not eligible for the Medical Expense/General Medical FSA, but may contribute to the Limited Purpose FSA (vision and/or dental expenses only). Questions: Benefits Administration, 615.741.3590 or 800.253.9981.</p>
 
   <h4 class="sub-title">Medical Expense / General Medical FSA <span style="font-weight:400;text-transform:none;">— maximum allowable annual contribution $3,300</span></h4>
   <div class="check-grid c1">
     <label class="cb"><input type="checkbox"> Terminate contributions <span style="color:var(--muted);font-weight:400;">(mid-year only)</span></label>
   </div>
   <div class="grid cols-3">
-    <div class="field"><label>Box #1 — Reduction per paycheck</label><input type="text"></div>
-    <div class="field"><label>Box #2 — Paychecks expected (\u00d7)</label><input type="text"></div>
-    <div class="field"><label>Box #3 — Total plan year amount (=)</label><input type="text"></div>
+    <div class="field"><label>Box #1 — Reduction per paycheck</label><input type="text" class="fsa-rate" data-group="med" oninput="calcFsa('med')"></div>
+    <div class="field"><label>Box #2 — Paychecks expected (&times;)</label><input type="text" class="fsa-count" data-group="med" oninput="calcFsa('med')"></div>
+    <div class="field"><label>Box #3 — Total plan year amount (=)</label><input type="text" id="fsa-total-med" readonly value=""></div>
   </div>
 
   <h4 class="sub-title">Limited Purpose FSA <span style="font-weight:400;text-transform:none;">— maximum allowable annual contribution $3,300</span></h4>
@@ -514,9 +559,9 @@
     <label class="cb"><input type="checkbox"> Terminate contributions <span style="color:var(--muted);font-weight:400;">(mid-year only)</span></label>
   </div>
   <div class="grid cols-3">
-    <div class="field"><label>Box #1 — Reduction per paycheck</label><input type="text"></div>
-    <div class="field"><label>Box #2 — Paychecks expected (\u00d7)</label><input type="text"></div>
-    <div class="field"><label>Box #3 — Total plan year amount (=)</label><input type="text"></div>
+    <div class="field"><label>Box #1 — Reduction per paycheck</label><input type="text" class="fsa-rate" data-group="ltd" oninput="calcFsa('ltd')"></div>
+    <div class="field"><label>Box #2 — Paychecks expected (&times;)</label><input type="text" class="fsa-count" data-group="ltd" oninput="calcFsa('ltd')"></div>
+    <div class="field"><label>Box #3 — Total plan year amount (=)</label><input type="text" id="fsa-total-ltd" readonly value=""></div>
   </div>
 
   <h4 class="sub-title">Dependent Care FSA</h4>
@@ -524,86 +569,88 @@
     <label class="cb"><input type="checkbox"> Terminate contributions <span style="color:var(--muted);font-weight:400;">(mid-year only)</span></label>
   </div>
   <div class="grid cols-3">
-    <div class="field"><label>Box #1 — Reduction per paycheck</label><input type="text"></div>
-    <div class="field"><label>Box #2 — Paychecks expected (\u00d7)</label><input type="text"></div>
-    <div class="field"><label>Box #3 — Total plan year amount (=)</label><input type="text"></div>
+    <div class="field"><label>Box #1 — Reduction per paycheck</label><input type="text" class="fsa-rate" data-group="dep" oninput="calcFsa('dep')"></div>
+    <div class="field"><label>Box #2 — Paychecks expected (&times;)</label><input type="text" class="fsa-count" data-group="dep" oninput="calcFsa('dep')"></div>
+    <div class="field"><label>Box #3 — Total plan year amount (=)</label><input type="text" id="fsa-total-dep" readonly value=""></div>
   </div>
-  <h4 class="sub-title">Tax Filing Status <span style="font-weight:400;text-transform:none;">— annual enrollment, Dependent Care FSA only</span></h4>
-  <div class="check-grid c1">
-    <label class="cb"><input type="checkbox"> Married, filing separately (max $3,750)</label>
-    <label class="cb"><input type="checkbox"> Married, filing jointly (max $7,500)</label>
-    <label class="cb"><input type="checkbox"> Head of household (max $7,500)</label>
-  </div>
-  <p class="footnote">Note (mid-year changes): the plan determines the per-paycheck deduction from the amount already contributed and pay periods remaining. A mid-year change cannot reduce below amounts already contributed or already reimbursed for the Plan Year.</p>
 
-  <h3 class="part-title">Permissible Mid-Year Change in Status <span style="font-weight:400;color:var(--muted);font-size:12px;">— required only if you checked Mid-Year Change above; request must be received within 60 days of the event</span></h3>
-  <p class="body-text">A mid-year change is only permissible if you have a status change that affects FSA eligibility AND the new election is consistent with that change.</p>
-  <table class="data-tbl">
-    <tr><th>Change in Status Event</th><th>Required Documentation</th></tr>
-    <tr><td>Marriage</td><td>Copy of marriage certificate</td></tr>
-    <tr><td>Divorce, legal separation, or annulment</td><td>Copy of divorce decree, legal separation, or annulment order signed by judge</td></tr>
-    <tr><td>Birth</td><td>Copy of birth certificate</td></tr>
-    <tr><td>Adoption / placement for adoption</td><td>Copy of adoption documents</td></tr>
-    <tr><td>Change of employment status affecting eligibility (part↔full time)</td><td>Documentation from the relevant employer substantiating the change</td></tr>
-    <tr><td>Entitlement to Medicare, Medicaid, CHIP</td><td>Letter of entitlement or copy of new ID card</td></tr>
-    <tr><td>Loss of eligibility for Medicare, Medicaid, CHIP</td><td>Letter of loss of eligibility</td></tr>
-    <tr><td>National Medical Support Notice</td><td>Copy of the Notice</td></tr>
-    <tr><td>Death (employee, spouse, or dependent)</td><td>Death certificate — not necessary if shown in Edison</td></tr>
-    <tr><td>Gain or loss of dependent/qualifying individual status</td><td>Documentation or attestation of the status change</td></tr>
-    <tr><td>DC-FSA only: change of provider causing a significant cost change</td><td>Documentation from a new, non-relative provider</td></tr>
-    <tr><td>DC-FSA only: spouse's employer plan election change (open enrollment)</td><td>Documentation from the spouse's employer plan</td></tr>
-  </table>
-  <p class="body-text">Explain why your requested change is consistent with the status change event (mid-year changes only):</p>
-  <div class="field"><input type="text"></div>
+  <div id="c-midyear-block" class="cond-block">
+    <p class="footnote">Note: the plan determines the per-paycheck deduction from the amount already contributed and pay periods remaining. A mid-year change cannot reduce below amounts already contributed or already reimbursed for the Plan Year.</p>
+    <h3 class="part-title">Permissible Mid-Year Change in Status <span style="font-weight:400;color:var(--muted);font-size:12px;">— request must be received within 60 days of the event</span></h3>
+    <p class="body-text">A mid-year change is only permissible if you have a status change that affects FSA eligibility AND the new election is consistent with that change.</p>
+    <div class="table-scroll">
+    <table class="data-tbl">
+      <tr><th></th><th>Change in Status Event</th><th>Required Documentation</th></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>Marriage</td><td>Copy of marriage certificate</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>Divorce, legal separation, or annulment</td><td>Copy of divorce decree, legal separation, or annulment order signed by judge</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>Birth</td><td>Copy of birth certificate</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>Adoption / placement for adoption</td><td>Copy of adoption documents</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>Change of employment status affecting eligibility (part&harr;full time)</td><td>Documentation from the relevant employer substantiating the change</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>Entitlement to Medicare, Medicaid, <span class="term" tabindex="0" data-tip="Children's Health Insurance Program — public health coverage for children in families that earn too much for Medicaid but need help affording coverage.">CHIP</span></td><td>Letter of entitlement or copy of new ID card</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>Loss of eligibility for Medicare, Medicaid, CHIP</td><td>Letter of loss of eligibility</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td><span class="term" tabindex="0" data-tip="A court/administrative order requiring an employer to provide health coverage for an employee's child, typically as part of a child-support case.">National Medical Support Notice</span></td><td>Copy of the Notice</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>Death (employee, spouse, or dependent)</td><td>Death certificate — not necessary if shown in Edison</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>Gain or loss of dependent/qualifying individual status</td><td>Documentation or attestation of the status change</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>DC-FSA only: change of provider causing a significant cost change</td><td>Documentation from a new, non-relative provider</td></tr>
+      <tr><td style="text-align:center"><input type="radio" name="cstatus"></td><td>DC-FSA only: spouse's employer plan election change (open enrollment)</td><td>Documentation from the spouse's employer plan</td></tr>
+    </table>
+    </div>
+    <p class="body-text">Explain why your requested change is consistent with the status change event:</p>
+    <div class="field"><input type="text"></div>
+  </div>
 
   <h3 class="part-title">Authorization <span style="font-weight:400;color:var(--muted);font-size:12px;">— applies to both annual enrollment and mid-year change requests</span></h3>
-  <label class="cb"><input type="checkbox"> I confirm the information above is true, and understand this is not an application for insurance.</label>
+  <label class="cb"><input type="checkbox" required> I confirm the information above is true, and understand this is not an application for insurance.</label>
   <p class="legal">I authorize my employer to reduce my gross salary, before federal, state, and social security taxes, by the total annual salary reduction indicated above; this continues for the current plan year (including upon termination) unless changed via an approved mid-year status change. I understand any unused Dependent Care balance is forfeited at plan year end (no carryover), and that Medical/Limited Purpose FSA balances above $660 are forfeited while $660 or less carries over if I re-enroll. I understand the State incurs no liability for my participation or my errors in completing this form, and that declining salary reduction forfeits my right to participate for the plan year. If I terminate employment, I have 90 days from termination to submit claims for expenses incurred on or before my termination date; funds remaining after 90 days are forfeited. I acknowledge FSA/L-FSA debit card expenses may require substantiation, that unsubstantiated expenses may be recovered via payroll deduction, and that enrolling in an FSA or L-FSA is conditioned on my consent to that deduction authorization.</p>
   <div class="sig-row">
     <div class="field"><label>Employee Signature</label><input type="text"></div>
-    <div class="field"><label>Date</label><input type="text"></div>
+    <div class="field"><label>Date</label><input type="date"></div>
   </div>
   <p class="contact-footer">Return this application to your human resource office after making a copy for your records. Enrollment/status-change questions: Benefits Administration, 615.741.3590 or 800.253.9981. Reimbursement questions: Optum Bank, 866.600.4984.</p>
+  </div><!-- /section-C -->
 
   <hr class="divider">
 
   <!-- ============================================================ -->
   <!-- SECTION D: ENROLLMENT & SQE CHANGE APPLICATION (FORM 1043)     -->
   <!-- ============================================================ -->
+  <div class="toggle-section" id="section-D">
   <h2 class="section-title">Section D — Enrollment &amp; Special Qualifying Event (SQE) Change Application <span class="tag">Form 1043</span></h2>
 
   <div class="callout" style="margin-top:0;">
-    <strong>Before you complete this section:</strong> Active employees return the completed form to your Agency Benefits Coordinator (ABC). COBRA participants return it directly to Benefits Administration — by mail, emailing benefits.administration@tn.gov, or faxing 615-741-8196. Complete every field; leaving a section blank can delay processing. Do not send original supporting documents — redact SSNs and financial details from copies. Premiums are not prorated: if approved, you owe the full month's premium for the month the effective date falls in.
+    <strong>Before you complete this section:</strong> Active employees return the completed form to your <span class="term" tabindex="0" data-tip="Agency Benefits Coordinator — the staff member at your agency who handles benefits enrollment.">Agency Benefits Coordinator (ABC)</span>. COBRA participants return it directly to Benefits Administration — by mail, emailing benefits.administration@tn.gov, or faxing 615-741-8196. Complete every field; leaving a section blank can delay processing. Do not send original supporting documents — redact SSNs and financial details from copies. Premiums are not prorated: if approved, you owe the full month's premium for the month the effective date falls in.
   </div>
 
   <h3 class="part-title">Action Requested</h3>
   <h4 class="sub-title">Type of Action</h4>
   <div class="check-grid c1">
-    <label class="cb"><input type="checkbox"> Add coverage</label>
-    <label class="cb"><input type="checkbox"> Add coverage &amp; change benefit election</label>
-    <label class="cb"><input type="checkbox"> Annual Enrollment Revision</label>
+    <label class="cb"><input type="radio" name="dtype"> Add coverage</label>
+    <label class="cb"><input type="radio" name="dtype"> Add coverage &amp; change benefit election</label>
+    <label class="cb"><input type="radio" name="dtype"> Annual Enrollment Revision</label>
   </div>
   <h4 class="sub-title">Reason for This Action</h4>
-  <label class="cb"><input type="checkbox"> Properly served National Medical Support Notice</label>
-  <label class="cb"><input type="checkbox"> Annual Enrollment Revision</label>
-  <label class="cb"><input type="checkbox"> Qualifying enrollment event (select one, provide documentation):</label>
-  <div class="check-grid c2" style="margin-left:22px;">
-    <label class="cb"><input type="checkbox"> Acquisition of new dependent — Marriage</label>
-    <label class="cb"><input type="checkbox"> Acquisition of new dependent — Legal Guardianship</label>
-    <label class="cb"><input type="checkbox"> Acquisition of new dependent — Newborn</label>
-    <label class="cb"><input type="checkbox"> Acquisition of new dependent — Adoption</label>
+  <label class="cb"><input type="radio" name="dreason"> Properly served National Medical Support Notice</label>
+  <label class="cb"><input type="radio" name="dreason"> Annual Enrollment Revision</label>
+  <label class="cb"><input type="radio" name="dreason" class="d-trigger" data-show="d-acquisition-block" value="qualify"> Qualifying enrollment event (select one below, provide documentation):</label>
+  <div id="d-acquisition-block" class="cond-block" style="margin-left:22px;">
+    <div class="check-grid c2">
+      <label class="cb"><input type="radio" name="dacquire"> Marriage</label>
+      <label class="cb"><input type="radio" name="dacquire"> Legal Guardianship</label>
+      <label class="cb"><input type="radio" name="dacquire"> Newborn</label>
+      <label class="cb"><input type="radio" name="dacquire"> Adoption</label>
+    </div>
   </div>
-  <label class="cb"><input type="checkbox"> Loss of eligibility for other group coverage / TennCare / CHIP</label>
-  <label class="cb"><input type="checkbox"> New eligibility for premium subsidy</label>
+  <label class="cb"><input type="radio" name="dreason"> Loss of eligibility for other group coverage / TennCare / CHIP</label>
+  <label class="cb"><input type="radio" name="dreason"> New eligibility for premium subsidy</label>
 
-  <h4 class="sub-title">Coverage</h4>
+  <h4 class="sub-title">Coverage <span style="font-weight:400;text-transform:none;">(check all that apply)</span></h4>
   <div class="check-grid c4">
     <label class="cb"><input type="checkbox"> Health</label>
     <label class="cb"><input type="checkbox"> Dental</label>
     <label class="cb"><input type="checkbox"> Vision</label>
     <label class="cb"><input type="checkbox"> Disability</label>
   </div>
-  <h4 class="sub-title">Participants Affected</h4>
+  <h4 class="sub-title">Participants Affected <span style="font-weight:400;text-transform:none;">(check all that apply)</span></h4>
   <div class="check-grid c1">
     <label class="cb"><input type="checkbox"> Employee</label>
     <label class="cb"><input type="checkbox"> Spouse</label>
@@ -612,8 +659,8 @@
 
   <h4 class="sub-title">Current Status</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Active</label>
-    <label class="cb"><input type="checkbox"> COBRA</label>
+    <label class="cb"><input type="radio" name="dstatus"> Active</label>
+    <label class="cb"><input type="radio" name="dstatus"> COBRA</label>
   </div>
 
   <div class="shared-ref">Employee identification and dependent details for this section are already captured in Section A above.</div>
@@ -621,101 +668,106 @@
   <h3 class="part-title">Health Insurance</h3>
   <h4 class="sub-title">Coverage Option</h4>
   <div class="check-grid c1">
-    <label class="cb"><input type="checkbox"> Premier PPO</label>
-    <label class="cb"><input type="checkbox"> Standard PPO</label>
-    <label class="cb"><input type="checkbox"> CDHP/HSA (HED or State only)</label>
+    <label class="cb"><input type="radio" name="dhealth"> Premier PPO</label>
+    <label class="cb"><input type="radio" name="dhealth"> Standard PPO</label>
+    <label class="cb"><input type="radio" name="dhealth"> CDHP/HSA (HED or State only)</label>
     <label class="cb">
-      <input type="checkbox">
-      <span class="inline-field">State HSA participants, annual contribution: $ <input type="text"></span>
+      <input type="radio" name="dhealth" class="d-trigger" data-show="d-hsa-block" value="statehsa">
+      <span class="inline-field">State HSA participants, select this and enter annual contribution below</span>
     </label>
-    <label class="cb"><input type="checkbox"> Limited PPO (Local Ed &amp; Local Gov only)</label>
-    <label class="cb"><input type="checkbox"> Local CDHP/HSA (Local Ed &amp; Local Gov only)</label>
-    <label class="cb"><input type="checkbox"> Decline Health Insurance</label>
+    <label class="cb"><input type="radio" name="dhealth"> Limited PPO (Local Ed &amp; Local Gov only)</label>
+    <label class="cb"><input type="radio" name="dhealth"> Local CDHP/HSA (Local Ed &amp; Local Gov only)</label>
+    <label class="cb"><input type="radio" name="dhealth"> Decline Health Insurance</label>
+  </div>
+  <div id="d-hsa-block" class="cond-block">
+    <div class="field" style="max-width:220px;"><label>State HSA Annual Contribution</label><input type="text" placeholder="$"></div>
   </div>
   <h4 class="sub-title">Carrier &amp; Network</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> BCBS Network S</label>
-    <label class="cb"><input type="checkbox"> BCBS Network P*</label>
-    <label class="cb"><input type="checkbox"> Cigna LocalPlus</label>
-    <label class="cb"><input type="checkbox"> Cigna Open Access*</label>
+    <label class="cb"><input type="radio" name="dnetwork"> BCBS Network S</label>
+    <label class="cb"><input type="radio" name="dnetwork"> BCBS Network P*</label>
+    <label class="cb"><input type="radio" name="dnetwork"> Cigna LocalPlus</label>
+    <label class="cb"><input type="radio" name="dnetwork"> Cigna Open Access*</label>
   </div>
   <p class="footnote">*Higher premium applies.</p>
   <h4 class="sub-title">Health Premium Level</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Employee only</label>
-    <label class="cb"><input type="checkbox"> Employee + child(ren)</label>
-    <label class="cb"><input type="checkbox"> Employee + spouse</label>
-    <label class="cb"><input type="checkbox"> Employee + spouse + child(ren)</label>
+    <label class="cb"><input type="radio" name="dhealthtier"> Employee only</label>
+    <label class="cb"><input type="radio" name="dhealthtier"> Employee + child(ren)</label>
+    <label class="cb"><input type="radio" name="dhealthtier"> Employee + spouse</label>
+    <label class="cb"><input type="radio" name="dhealthtier"> Employee + spouse + child(ren)</label>
   </div>
 
   <h3 class="part-title">Dental Insurance</h3>
   <div class="check-grid c1">
-    <label class="cb"><input type="checkbox"> MetLife DPPO</label>
-    <label class="cb"><input type="checkbox"> Cigna DHMO (Prepaid Provider)</label>
-    <label class="cb"><input type="checkbox"> Decline Dental Insurance</label>
+    <label class="cb"><input type="radio" name="ddental"> MetLife <span class="term" tabindex="0" data-tip="Dental Preferred Provider Organization — you can see any licensed dentist, with lower out-of-pocket costs in-network.">DPPO</span></label>
+    <label class="cb"><input type="radio" name="ddental"> Cigna <span class="term" tabindex="0" data-tip="Dental Health Maintenance Organization — you choose a primary dental provider from a set network.">DHMO</span> (Prepaid Provider)</label>
+    <label class="cb"><input type="radio" name="ddental"> Decline Dental Insurance</label>
   </div>
   <h4 class="sub-title">Dental Premium Level</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Employee only</label>
-    <label class="cb"><input type="checkbox"> Employee + child(ren)</label>
-    <label class="cb"><input type="checkbox"> Employee + spouse</label>
-    <label class="cb"><input type="checkbox"> Employee + spouse + child(ren)</label>
+    <label class="cb"><input type="radio" name="ddentaltier"> Employee only</label>
+    <label class="cb"><input type="radio" name="ddentaltier"> Employee + child(ren)</label>
+    <label class="cb"><input type="radio" name="ddentaltier"> Employee + spouse</label>
+    <label class="cb"><input type="radio" name="ddentaltier"> Employee + spouse + child(ren)</label>
   </div>
 
   <h3 class="part-title">Vision Insurance</h3>
   <div class="check-grid c1">
-    <label class="cb"><input type="checkbox"> Basic Plan</label>
-    <label class="cb"><input type="checkbox"> Expanded Plan</label>
-    <label class="cb"><input type="checkbox"> Decline Vision Insurance</label>
+    <label class="cb"><input type="radio" name="dvision"> Basic Plan</label>
+    <label class="cb"><input type="radio" name="dvision"> Expanded Plan</label>
+    <label class="cb"><input type="radio" name="dvision"> Decline Vision Insurance</label>
   </div>
   <h4 class="sub-title">Vision Premium Level</h4>
   <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> Employee only</label>
-    <label class="cb"><input type="checkbox"> Employee + child(ren)</label>
-    <label class="cb"><input type="checkbox"> Employee + spouse</label>
-    <label class="cb"><input type="checkbox"> Employee + spouse + child(ren)</label>
+    <label class="cb"><input type="radio" name="dvisiontier"> Employee only</label>
+    <label class="cb"><input type="radio" name="dvisiontier"> Employee + child(ren)</label>
+    <label class="cb"><input type="radio" name="dvisiontier"> Employee + spouse</label>
+    <label class="cb"><input type="radio" name="dvisiontier"> Employee + spouse + child(ren)</label>
   </div>
 
   <h3 class="part-title">Disability Insurance</h3>
   <h4 class="sub-title">Short Term Disability</h4>
   <div class="check-grid c1">
-    <label class="cb"><input type="checkbox"> 60% with 14-day Elimination Period</label>
-    <label class="cb"><input type="checkbox"> 60% with 30-day Elimination Period</label>
-    <label class="cb"><input type="checkbox"> Decline Short Term Disability</label>
+    <label class="cb"><input type="radio" name="dstd"> 60% with 14-day <span class="term" tabindex="0" data-tip="The waiting period after you become disabled before benefit payments begin.">Elimination Period</span></label>
+    <label class="cb"><input type="radio" name="dstd"> 60% with 30-day Elimination Period</label>
+    <label class="cb"><input type="radio" name="dstd"> Decline Short Term Disability</label>
   </div>
   <h4 class="sub-title">Long Term Disability</h4>
   <div class="check-grid c1">
-    <label class="cb"><input type="checkbox"> Employer-paid DEFAULT State/HE 63% with 90-day Elimination Period</label>
-    <label class="cb"><input type="checkbox"> Employee-paid 60% with 90-day Elimination Period</label>
-    <label class="cb"><input type="checkbox"> Employee-paid 60% with 180-day Elimination Period</label>
-    <label class="cb"><input type="checkbox"> Employee-paid 63% with 180-day Elimination Period</label>
+    <label class="cb"><input type="radio" name="dltd"> Employer-paid DEFAULT State/HE 63% with 90-day Elimination Period</label>
+    <label class="cb"><input type="radio" name="dltd"> Employee-paid 60% with 90-day Elimination Period</label>
+    <label class="cb"><input type="radio" name="dltd"> Employee-paid 60% with 180-day Elimination Period</label>
+    <label class="cb"><input type="radio" name="dltd"> Employee-paid 63% with 180-day Elimination Period</label>
   </div>
 
   <h3 class="part-title">Employee Authorization</h3>
   <p class="legal">I confirm the information above is true. I understand my health, dental, and vision selections cannot change until the end of the plan year absent a qualifying event, and I authorize pre-tax payroll deduction of my share of premiums (state employees). I understand it is my responsibility to notify my ABC if a dependent loses eligibility, and I will be held responsible for claims paid in error if I fail to notify.</p>
   <div class="grid cols-2">
     <div class="field"><label>Employee Signature</label><input type="text"></div>
-    <div class="field"><label>Date</label><input type="text"></div>
+    <div class="field"><label>Date</label><input type="date"></div>
   </div>
   <div class="grid cols-2">
-    <div class="field"><label>Phone (required)</label><input type="text"></div>
-    <div class="field"><label>Email Address (required)</label><input type="text"></div>
+    <div class="field"><label class="req">Phone</label><input type="tel" class="phone-input" placeholder="(XXX) XXX-XXXX" maxlength="14" required></div>
+    <div class="field"><label class="req">Email Address</label><input type="email" required></div>
   </div>
 
-  <h4 class="sub-title">Agency Section — Return to Your Agency Benefits Coordinator</h4>
-  <div class="grid cols-3">
-    <div class="field"><label>Original Hire Date</label><input type="text"></div>
-    <div class="field"><label>Coverage Begin Date</label><input type="text"></div>
-    <div class="field"><label>Position Number</label><input type="text"></div>
-  </div>
-  <div class="field"><label>Notes to Benefits Administration</label><input type="text"></div>
-  <div class="grid cols-2">
-    <div class="field"><label>Agency Benefits Coordinator Signature</label><input type="text"></div>
-    <div class="field"><label>Date</label><input type="text"></div>
-  </div>
-  <div class="check-grid c2">
-    <label class="cb"><input type="checkbox"> PPACA Eligible</label>
-    <label class="cb"><input type="checkbox"> 1450 Eligible</label>
+  <div class="agency-block">
+    <span class="agency-flag">Agency use only — return to your Agency Benefits Coordinator</span>
+    <div class="grid cols-3">
+      <div class="field agency"><label>Original Hire Date</label><input type="date"></div>
+      <div class="field agency"><label>Coverage Begin Date</label><input type="date"></div>
+      <div class="field agency"><label>Position Number</label><input type="text"></div>
+    </div>
+    <div class="field agency"><label>Notes to Benefits Administration</label><input type="text"></div>
+    <div class="grid cols-2">
+      <div class="field agency"><label>Agency Benefits Coordinator Signature</label><input type="text"></div>
+      <div class="field agency"><label>Date</label><input type="date"></div>
+    </div>
+    <div class="check-grid c2">
+      <label class="cb"><input type="checkbox"> <span class="term" tabindex="0" data-tip="Patient Protection and Affordable Care Act — federal health-reform law that governs certain eligibility rules.">PPACA</span> Eligible</label>
+      <label class="cb"><input type="checkbox"> 1450 Eligible</label>
+    </div>
   </div>
 
   <h3 class="part-title">SQE Enrollment Changes — Deadlines, Effective Dates &amp; Documentation</h3>
@@ -737,15 +789,162 @@
     <li><strong>Effective date:</strong> first of the month after receipt, except birth/adoption/placement health coverage may be retroactive to the event date if submitted within 30 days; dental/vision are never retroactive.</li>
     <li><strong>Documentation:</strong> marriage certificate; or birth certificate (mother's copy accepted for newborn); or final adoption/custody order; or guardianship order.</li>
   </ul>
-  <p class="footnote">Example — marriage or birth/adoption on June 15: submitted within 30 days (June 25) → coverage begins July 1 (health retroactive to June 15 for birth/adoption); submitted 31–60 days later (August 14) → coverage begins September 1; submitted on/after day 61 (August 15) → denied.</p>
+  <p class="footnote">Example — marriage or birth/adoption on June 15: submitted within 30 days (June 25) &rarr; coverage begins July 1 (health retroactive to June 15 for birth/adoption); submitted 31&ndash;60 days later (August 14) &rarr; coverage begins September 1; submitted on/after day 61 (August 15) &rarr; denied.</p>
 
   <h4 class="sub-title">3. New Eligibility for Premium Subsidy</h4>
   <p class="body-text">An employee and dependents newly eligible for a CHIP or Medicaid premium subsidy may enroll midyear. The application with documentation must be received by ABC/BA within 60 days of the new eligibility.</p>
   <p class="footnote">Required documentation for adding new dependents may be submitted up to 10 days after the applicable enrollment deadline.</p>
+  </div><!-- /section-D -->
 
   <hr class="divider">
   <p class="contact-footer">Partners for Health — Combined Benefits Enrollment/Change Application, consolidated edition.</p>
 
 </div>
+
+<script>
+// ---------- Triage: show/hide sections B, C, D ----------
+const triageChecks = document.querySelectorAll('.triage-check');
+function applyTriage(){
+  const anyChecked = Array.from(triageChecks).some(c => c.checked);
+  triageChecks.forEach(c => {
+    const target = document.getElementById(c.dataset.target);
+    if(!target) return;
+    if(!anyChecked){
+      target.classList.remove('hidden-section');
+    } else {
+      target.classList.toggle('hidden-section', !c.checked);
+    }
+  });
+}
+triageChecks.forEach(c => c.addEventListener('change', applyTriage));
+function resetTriage(){
+  triageChecks.forEach(c => c.checked = false);
+  applyTriage();
+}
+
+// ---------- Generic conditional-block show logic ----------
+function refreshConditional(triggerSelector){
+  document.querySelectorAll(triggerSelector).forEach(input => {
+    input.addEventListener('change', () => {
+      // handle data-show / data-hide pairs among inputs sharing the same name
+      const name = input.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(sibling => {
+        if(sibling.dataset.show){
+          const el = document.getElementById(sibling.dataset.show);
+          if(el) el.classList.toggle('visible', sibling.checked);
+        }
+        if(sibling.dataset.hide){
+          const el = document.getElementById(sibling.dataset.hide);
+          if(el && sibling.checked) el.classList.remove('visible');
+        }
+      });
+    });
+  });
+}
+refreshConditional('.b3-trigger');
+refreshConditional('.c-trigger');
+refreshConditional('.d-trigger');
+
+// ---------- FSA Box3 auto-calc ----------
+function calcFsa(group){
+  const rate = parseFloat(document.querySelector(`.fsa-rate[data-group="${group}"]`).value) || 0;
+  const count = parseFloat(document.querySelector(`.fsa-count[data-group="${group}"]`).value) || 0;
+  const total = rate * count;
+  document.getElementById('fsa-total-' + group).value = total ? total.toFixed(2) : '';
+}
+
+// ---------- Beneficiary % auto-sum ----------
+function sumPct(rowsId, cls, totalId){
+  const inputs = document.querySelectorAll(`#${rowsId} .${cls}`);
+  let sum = 0;
+  inputs.forEach(i => { sum += parseFloat(i.value) || 0; });
+  const totalField = document.getElementById(totalId);
+  totalField.value = sum;
+  const labelEl = document.getElementById(totalId + '-label');
+  if(sum === 100){
+    totalField.style.color = 'var(--ok)';
+    if(labelEl) labelEl.textContent = '✓ 100%';
+    labelEl && (labelEl.style.color = 'var(--ok)');
+  } else if(sum === 0){
+    totalField.style.color = '';
+    if(labelEl) labelEl.textContent = '';
+  } else {
+    totalField.style.color = 'var(--danger)';
+    if(labelEl){ labelEl.textContent = '(must total 100%)'; labelEl.style.color = 'var(--danger)'; }
+  }
+}
+
+// ---------- Add row (dependents / beneficiaries) ----------
+function addRow(rowsId, maxRows, pctClass, totalId){
+  const tbody = document.getElementById(rowsId);
+  if(tbody.children.length >= maxRows) { alert('Maximum rows reached — please attach a separate sheet.'); return; }
+  const newRow = tbody.children[0].cloneNode(true);
+  newRow.querySelectorAll('input[type=text], input[type=date]').forEach(i => i.value = '');
+  newRow.querySelectorAll('input[type=checkbox]').forEach(i => i.checked = false);
+  if(pctClass){
+    const pctInput = newRow.querySelector('.' + pctClass);
+    if(pctInput) pctInput.addEventListener('input', () => sumPct(rowsId, pctClass, totalId));
+  }
+  tbody.appendChild(newRow);
+}
+
+// ---------- SSN show/hide ----------
+function toggleSSN(btn){
+  const input = btn.previousElementSibling;
+  if(input.type === 'text'){ input.type = 'password'; btn.textContent = 'SHOW'; }
+  else { input.type = 'text'; btn.textContent = 'HIDE'; }
+}
+document.querySelectorAll('.ssn-input').forEach(input => {
+  input.addEventListener('input', () => {
+    let digits = input.value.replace(/\D/g,'').slice(0,9);
+    let out = digits;
+    if(digits.length > 5) out = `${digits.slice(0,3)}-${digits.slice(3,5)}-${digits.slice(5)}`;
+    else if(digits.length > 3) out = `${digits.slice(0,3)}-${digits.slice(3)}`;
+    input.value = out;
+  });
+});
+
+// ---------- Phone auto-format ----------
+document.querySelectorAll('.phone-input').forEach(input => {
+  input.addEventListener('input', () => {
+    let digits = input.value.replace(/\D/g,'').slice(0,10);
+    let out = digits;
+    if(digits.length > 6) out = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+    else if(digits.length > 3) out = `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+    else if(digits.length > 0) out = `(${digits}`;
+    input.value = out;
+  });
+});
+
+// ---------- Required-field validation ----------
+function isVisible(el){
+  return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+}
+function checkForm(){
+  const required = document.querySelectorAll('[required]');
+  let missing = [];
+  required.forEach(el => {
+    el.classList.remove('field-missing');
+    if(!isVisible(el)) return; // skip hidden/irrelevant fields
+    const empty = (el.type === 'checkbox') ? !el.checked : !el.value.trim();
+    if(empty){
+      el.classList.add('field-missing');
+      missing.push(el);
+    }
+  });
+  const banner = document.getElementById('validation-banner');
+  banner.style.display = 'block';
+  if(missing.length === 0){
+    banner.className = 'ok';
+    banner.textContent = '✓ All required fields are complete.';
+  } else {
+    banner.className = '';
+    banner.textContent = `${missing.length} required field${missing.length>1?'s':''} still need${missing.length>1?'':'s'} to be filled in — highlighted in red below.`;
+    missing[0].scrollIntoView({behavior:'smooth', block:'center'});
+    missing[0].focus();
+  }
+}
+</script>
+
 </body>
 </html>
